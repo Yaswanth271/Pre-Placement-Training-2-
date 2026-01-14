@@ -1,0 +1,17 @@
+class Solution(object):
+    def fractionAddition(self, expression):
+        pattern = r"([+-]?\d+)[\/](\d+)"
+        matches = re.findall(pattern, expression)
+        v = 0
+        for match in matches:
+            n, d = map(int, match)
+            v += float(n)/float(d)
+            print(v)
+
+        d = 1
+        tolerance=1e-4
+        while abs(v * d - round(v * d)) > tolerance:
+            d += 1
+        n = round(v * d)
+
+        return str(int(n)) + '/' + str(int(d))

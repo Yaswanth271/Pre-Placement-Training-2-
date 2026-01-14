@@ -1,0 +1,32 @@
+class Solution(object):
+    def kthSmallest(self, matrix, k):
+        """
+        :type matrix: List[List[int]]
+        :type k: int
+        :rtype: int
+        """
+        n=len(matrix)
+        l=matrix[0][0]
+        r=matrix[n-1][n-1]
+        ans=0
+        def countLessEqual(val):
+            count=0
+            row=n-1
+            col=0
+            while row>=0 and col <n:
+                if matrix[row][col]<=val:
+                    count+=(row+1)
+                    col+=1
+                else:
+                    row-=1
+            return count
+
+        
+        while l<=r:
+            mid=(l+r)//2
+            if countLessEqual(mid)>=k:
+                ans=mid
+                r=mid-1
+            else:
+                l=mid+1
+        return ans

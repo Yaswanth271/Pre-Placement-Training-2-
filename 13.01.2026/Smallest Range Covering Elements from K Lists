@@ -1,0 +1,22 @@
+import heapq
+
+class Solution:
+    def smallestRange(self, nums):
+        min_heap = []
+        curr_max = float('-inf')
+        
+        for i, row in enumerate(nums):
+            heapq.heappush(min_heap, (row[0], i, 0))
+            curr_max = max(curr_max, row[0])
+        
+        range_start, range_end = -float('inf'), float('inf')
+        
+        while len(min_heap) == len(nums):
+            curr_min, row, index = heapq.heappop(min_heap)
+            if curr_max - curr_min < range_end - range_start:
+                range_start, range_end = curr_min, curr_max
+            if index + 1 < len(nums[row]):
+                heapq.heappush(min_heap, (nums[row][index + 1], row, index + 1))
+                curr_max = max(curr_max, nums[row][index + 1])
+        
+        return [range_start, range_end]

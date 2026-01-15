@@ -1,0 +1,27 @@
+class Solution(object):
+    def getAncestors(self, n, edges):
+        """
+        :type n: int
+        :type edges: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        d=defaultdict(list)
+        ancestors = [set() for i in range(n)]
+        for i,j in edges:
+            d[i].append(j)
+
+        q=list(range(n))
+        while q:
+            node=q.pop(0)
+            for neighbor in d[node]:
+
+                ret_obj=list(ancestors[node])
+                ret_obj.append(node)
+                ret_obj=set(ret_obj)
+                if not ret_obj.issubset(ancestors[neighbor]):
+                    ancestors[neighbor].update(ret_obj)
+                    q.append(neighbor)
+        out=[]
+        for i in range(n):
+            out+=[sorted(ancestors[i])]
+        return out

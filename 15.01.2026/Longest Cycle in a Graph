@@ -1,0 +1,28 @@
+class Solution(object):
+    def longestCycle(self, edges):
+
+        self.res=-1
+        
+        def visit(i):
+            current=i
+            stack=[]
+            while(not visited[current] ):
+                visited[current]=1
+                if edges[current]==-1:
+                    break
+                stack.append(current)
+                current=edges[current]
+            for i in range(len(stack)-1,-1,-1):
+                if stack[i]==current:
+                    self.res=max(self.res,len(stack)-i)
+        
+        n=len(edges)
+        visited=[0]*n
+        for i in range(n):
+            if not visited[i]:
+                visit(i)
+        
+        return self.res
+            
+            
+        

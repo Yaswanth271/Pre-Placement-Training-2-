@@ -1,0 +1,34 @@
+class Solution(object):
+    def countPaths(self, grid):
+        """
+        :type grid: List[List[int]]
+        :rtype: int
+        """
+        row = len(grid)
+        col = len(grid[0])
+        mod = 10 ** 9 + 7
+
+        memo = [[-1 for _ in range(col)] for _ in range(row)]
+
+        def calc(i, j):
+            if memo[i][j] != -1:
+                return memo[i][j]
+
+            directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+            count = 1  # Starting point itself is a valid path
+
+            for dirn in directions:
+                newi = i + dirn[0]
+                newj = j + dirn[1]
+                if 0 <= newi < row and 0 <= newj < col and grid[newi][newj] > grid[i][j]:
+                    count = (count + calc(newi, newj)) % mod
+
+            memo[i][j] = count
+            return count
+
+        total = 0
+        for i in range(row):
+            for j in range(col):
+                total = (total + calc(i, j)) % mod
+
+        return total
